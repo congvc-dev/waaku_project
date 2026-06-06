@@ -82,6 +82,27 @@ export const generateQRCode = async (sessionId) => {
 // ===== MESSAGING API =====
 
 /**
+ * Get chats for a ready session
+ * @param {string} sessionId - Session ID
+ * @returns {Promise} Array of chats
+ */
+export const getChats = async (sessionId) => {
+	const response = await http.get(`/api/sessions/${encodeURIComponent(sessionId)}/chats`)
+	return response.data
+}
+
+/**
+ * Get latest messages for a chat
+ * @param {string} sessionId - Session ID
+ * @param {string} chatId - WhatsApp chat JID
+ * @returns {Promise} Array of messages
+ */
+export const getChatMessages = async (sessionId, chatId) => {
+	const response = await http.get(`/api/sessions/${encodeURIComponent(sessionId)}/chats/${encodeURIComponent(chatId)}/messages`)
+	return response.data
+}
+
+/**
  * Validate phone number
  * @param {string} sessionId - Session ID
  * @param {string} phoneNumber - Phone number to validate
@@ -208,6 +229,8 @@ export default {
 	generateQRCode,
 
 	// Messaging
+	getChats,
+	getChatMessages,
 	validatePhoneNumber,
 	sendMessage,
 
